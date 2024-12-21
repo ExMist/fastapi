@@ -1,0 +1,25 @@
+#docker-compose.yml
+version: '3.8'
+services:
+    postgres:
+        image: postgres
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=postgres
+    pgadmin4:
+        image: dpage/pgadmin4
+        restart: always
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+            - PGADMIN_DEFAULT_PASSWORD=postgres
+        ports:
+            - "15432:80"        
+    fast_api:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      depends_on:
+      - postgres
+      ports: 
+        - 8000:8000
